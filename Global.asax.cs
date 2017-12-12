@@ -1,13 +1,4 @@
 ﻿using BookService.ExceptionHandling;
-using BookService.Persistence;
-using Hangfire;
-using Hangfire.SimpleInjector;
-using SimpleInjector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -30,9 +21,15 @@ namespace BookService
 
             System.Web.Http.GlobalConfiguration.Configuration.MessageHandlers.Add(new ResponseWrappingHandler());
 
-            Container container = new SimpleInjector.Container();
-            container.Register<IUnitOfWork, UnitOfWork>();
-            JobActivator.Current = new SimpleInjectorJobActivator(container);
+            //Using Hangfire to inject dependencies
+            //Container container = new SimpleInjector.Container();
+            //container.Register<IUnitOfWork, UnitOfWork>();
+            //container.Register<IBookRepository, BookRepository>();
+            //container.Register<IAuthorRepository, AuthorRepository>();
+
+            //Hangfire.GlobalConfiguration.Configuration.UseActivator(new ContainerJobActivator(container));
+
+            //JobActivator.Current = new SimpleInjectorJobActivator(container);
 
         }
         

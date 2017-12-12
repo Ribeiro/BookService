@@ -21,26 +21,20 @@ namespace BookService.Controllers
     public class BooksController : ApiController
     {
         private BookServiceContext db = new BookServiceContext();
-        //private readonly IBackgroundJobClient _backgroundJob;
         private readonly IUnitOfWork _unitOfWork;
 
-        //public BooksController()
-        //{
-
-        //}
-
-        public BooksController(IUnitOfWork unitOfWork/*, IBackgroundJobClient backgroundJob*/)
+        public BooksController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            //_backgroundJob = backgroundJob;
         }
 
         // GET: api/Books
         public IEnumerable<Book> GetBooks()
         {
             long lastId = db.Books.Max(b => b.Id) + 1;
-            var jobId = BackgroundJob.Enqueue(() => AddBook(lastId, "Teste_" + DateTime.Now, 1991, 10.00, "Comedy", null, 4));
-            BackgroundJob.ContinueWith(jobId, () => AddBook(lastId + 1, "Teste_" + DateTime.Now, 1992, 11.00, "Comedy", null, 4));
+
+            var jobId = BackgroundJob.Enqueue(() => _unitOfWork.BooksRepository.Insert(BuildBookFom(lastId, "Teste_" + DateTime.Now, 1991, 10.00, "Comedy", null, 4)));
+            BackgroundJob.ContinueWith(jobId, () => _unitOfWork.BooksRepository.Insert(BuildBookFom(lastId + 1, "Teste_" + DateTime.Now, 1992, 11.00, "Comedy", null, 4)));
 
             return _unitOfWork.BooksRepository.GetAll().Include(b => b.Author).ToList();
         }
@@ -111,7 +105,7 @@ namespace BookService.Controllers
             
         }
 
-        public void AddBook(long id, string title, int year, double price, string genre, string note, long authorId)
+        private Book BuildBookFom(long id, string title, int year, double price, string genre, string note, long authorId)
         {
             Book book = new Book();
             book.Id = id;
@@ -121,8 +115,7 @@ namespace BookService.Controllers
             book.Genre = genre;
             book.Note = note;
             book.AuthorId = authorId;
-            db.Books.Add(book);
-            db.SaveChanges();
+            return book;
         }
     }
 }

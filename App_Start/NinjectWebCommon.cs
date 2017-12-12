@@ -5,17 +5,14 @@ namespace BookService.App_Start
 {
     using System;
     using System.Web;
-    using System.Web.Http;
     using Ninject.Web.WebApi;
-
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
     using Ninject;
     using Ninject.Web.Common;
-    using BookService.Repositories;
     using BookService.Models;
     using BookService.Persistence;
     using Ninject.Web.Common.WebHost;
+    using System.Web.Http;
 
     public static class NinjectWebCommon 
     {
@@ -62,6 +59,7 @@ namespace BookService.App_Start
             {
                 kernel.Dispose();
                 throw;
+
             }
         }
 
