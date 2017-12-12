@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="D:\Users\008188L1\documents\visual studio 2017\Projects\BookService\BookService\obj\Release\Package\PackageTmp" />
+  <setAcl path="D:\Users\008188L1\documents\visual studio 2017\Projects\BookService\BookService\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="D:\Users\008188L1\documents\visual studio 2017\Projects\BookService\BookService\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>
